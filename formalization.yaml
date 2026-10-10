@@ -1,0 +1,548 @@
+version: "v0.4"
+
+project:
+  name: "Classical theorems of Fröhlich and Spencer: the Kosterlitz–Thouless transition, massless phases of abelian gauge theories, and Anderson localization"
+  description: >-
+    A Lean 4 / Mathlib formalization of three papers of J. Fröhlich and T.
+    Spencer (Communications in Mathematical Physics, 1981, 1982 and 1983),
+    with the two-dimensional multiscale analysis in the finite-volume form of
+    V. Kharash and R. Peled (2017). For the two-dimensional plane rotator it
+    proves the Kosterlitz–Thouless transition: the two-point function decays
+    exponentially at high temperature, while at low temperature it obeys the
+    power-law lower bound of Theorem C and still tends to zero, so that there
+    is no long-range order. The same multiscale expansion in charge ensembles
+    gives the absence of screening and the power-law decay of fractional
+    charges in two-dimensional Coulomb gases (Theorems A and B), the phase
+    diagram of the Z_n clock models with an intermediate massless phase
+    (Theorem 7.1), disorder bounds for the Villain model (Theorem D) and the
+    roughening transition of the solid-on-solid model (Theorem 7.3), as well
+    as the four finite-square theorems of Kharash and Peled. For the
+    four-dimensional Villain U(1) lattice gauge theory at large beta it
+    proves that the integer-valued dual gauge field has the exponential
+    moments of a free massless field up to a renormalization of the coupling
+    from beta to beta''(beta) with beta''/beta -> 1, in finite volume (2.93)
+    and for every limit state along cubes; that a translation-invariant limit
+    state has a field-strength correlation that is not summable, obtained as
+    the limit of the finite-volume field-strength correlations, which is the
+    paper's massless photon; the perimeter law of the Wilson loop at large
+    beta and its area law at small beta; a perimeter law for the disorder
+    operator of the Z_N gauge theories; and long-range order of the Villain
+    XY model in every dimension D >= 3. For the Anderson tight-binding model
+    on Z^nu at large disorder, or at high energy with Gaussian disorder, it
+    proves exponential decay of the Green function with polynomially high
+    probability, uniformly in the imaginary part of the energy (Theorem 1.2),
+    its almost-sure decay, and the vanishing of the Kubo diffusion
+    coefficient wherever the density of states is positive (Theorem 1.1). The
+    FS82 statements are in finite volume or about limit points along cubes;
+    the thermodynamic limits that the paper takes from Ginibre's inequalities
+    are not formalized. Corrections to the printed texts are listed in the
+    README.
+  authors:
+    - "Scott Armstrong"
+    - "Amélie Loher"
+  responsible_maintainers:
+    - "Scott Armstrong"
+    - "Amélie Loher"
+  affiliations:
+    - "Scott Armstrong: CNRS and Laboratoire Jacques-Louis Lions, Sorbonne Université; Courant Institute School of Mathematics, Computing, and Data Science, New York University"
+    - "Amélie Loher: All Souls College, University of Oxford"
+  license: "Apache-2.0"
+  funding:
+    - "Scott Armstrong was supported by the European Research Council (ERC) under the European Union's Horizon Europe research and innovation programme, grant agreement No. 101200828."
+    - "Amélie Loher acknowledges support from the Fondation Sciences Mathématiques de Paris."
+
+classification:
+  arxiv: ["math-ph", "math.PR", "math.SP"]
+  msc2020: ["47B80", "81T25", "82B20", "82B26"]
+
+sources:
+  - title: "The Kosterlitz–Thouless transition in two-dimensional Abelian spin systems and the Coulomb gas"
+    authors: ["J. Fröhlich", "T. Spencer"]
+    type: "paper"
+    id: "doi:10.1007/BF01208273"
+    url: "https://doi.org/10.1007/BF01208273"
+    location: "Communications in Mathematical Physics 81 (1981), 527–602; Theorems A, B, C, D, (1.30), (1.31), (6.1), §7.1 (clock models, Theorem 7.1, (7.5)), §7.2 (Theorem 7.3)"
+    relationship: "formalizes"
+    note: >-
+      Thermodynamic limits are with free boundary
+      conditions; where a limit is not known to be unique the statement is about
+      every limit along an exhaustion by boxes. Recorded departures from the
+      printed text: a vacancy lambda(0) >= nu > 0 in Theorems A and B; (7.5)
+      restricted to the Z_N twists xi = k/N, with a proved negative theorem off
+      the grid; a repaired interpolation condition and a limit-point reading of
+      the state (7.16) in Theorem 7.3.
+  - title: "Massless phases and symmetry restoration in Abelian gauge theories and spin systems"
+    authors: ["J. Fröhlich", "T. Spencer"]
+    type: "paper"
+    id: "doi:10.1007/BF01213610"
+    url: "https://doi.org/10.1007/BF01213610"
+    location: "Communications in Mathematical Physics 83 (1982), 411–454; (1.13), (2.7), (2.8), (2.89), (2.90)–(2.93), §2.11, (3.54), (4.40)"
+    relationship: "formalizes"
+    note: >-
+      The first root is the finite-volume dual moment
+      comparison (2.93) on log-thick boxes in dimension four. The other results
+      are for the Villain action (Wilson's action in §3), in finite volume on
+      centered cubes or for limit points along cubes. The existence of the
+      thermodynamic limits (Ginibre's inequalities) is outside the scope, and so
+      are the paper's extensions to Wilson's action in §2 and §4. Recorded
+      departures from the printed text are listed in the README.
+  - title: "Absence of diffusion in the Anderson tight binding model for large disorder or low energy"
+    authors: ["J. Fröhlich", "T. Spencer"]
+    type: "paper"
+    id: "doi:10.1007/BF01209475"
+    url: "https://doi.org/10.1007/BF01209475"
+    location: "Communications in Mathematical Physics 88 (1983), 151–184; equations (1.4), (1.10)–(1.15), Theorems 1.1 and 1.2"
+    relationship: "formalizes"
+    note: >-
+      existence and uniqueness of the Green function for
+      every real potential, the integrated density of states, Theorem 1.2 in
+      finite and infinite volume, Theorem 1.1, and almost-sure decay. Two
+      regimes: a single-site density bounded by a small constant (large
+      disorder, every energy), and Gaussian disorder at high energy. Recorded
+      departures: the mass recurrence (3.2) with exponent 1/8 and a shifted
+      index, the exponent of (2.24), and the factor 2 in (1.25).
+  - title: "The Fröhlich–Spencer Proof of the Berezinskii–Kosterlitz–Thouless Transition"
+    authors: ["Vital Kharash", "Ron Peled"]
+    type: "paper"
+    id: "arxiv:1711.04720v1"
+    url: "https://arxiv.org/abs/1711.04720v1"
+    location: "Version 1, Theorems 1.1, 1.3, 1.5, and 1.6"
+    relationship: "adapts"
+    note: >-
+      The pinned version controls the four finite-square statements and the
+      proof route of the multiscale analysis. It is not the source of the FS81
+      statements.
+
+automation:
+  methods:
+    - method: "agent"
+      models:
+        - "gpt-6-luna"
+        - "gpt-6.1-sol"
+        - "claude-opus-5-5"
+        - "claude-sonnet-5-5"
+      framework: >-
+        Codex (GPT-6 Luna, GPT-6.1 Sol) and Claude Code (Claude Opus 5.5
+        coordinating, Claude Sonnet 5.5), under the authors' supervision.
+      tool_setup: >-
+        Lean 4 and Mathlib v4.35.0-rc2. Each source-facing definition and
+        theorem statement is a separate short module written in terms of
+        Mathlib and other such modules; every statement was compared with the
+        sources by independent model reviews and approved by the authors, and
+        each theorem is proved by one line naming a theorem of the library.
+        Verification uses full builds, axiom checks, and Mathlib-only
+        comparator challenges checked with Lean's comparator and the
+        independent kernel checkers bundled with the toolchain.
+      cost:
+        wall_time: "about five days of development (6–10 October 2026) plus release preparation"
+        spend_usd: "not separately tracked (ChatGPT Pro and Claude Max subscriptions)"
+        hardware: "one shared 16-CPU Linux machine"
+      prompting_notes: >-
+        The authors determined the scope, the proof routes and the
+        statements, ruled on every deviation from the printed statements, and
+        approved every source-facing statement. Errors and gaps in the
+        printed proofs were identified and repaired by arguments proposed by
+        the models and checked by separate model reviews before they were
+        formalized.
+  spend_usd: "not separately tracked (ChatGPT Pro and Claude Max subscriptions)"
+  notes: >-
+    All Lean code was written by the listed models under the supervision of
+    the authors. Every proof is checked by the Lean kernel; the library
+    contains no sorry and no custom axiom. The comparator Challenge files
+    contain one intentional theorem-body placeholder per theorem, proved by
+    the corresponding Solution files. The library has 425 source-facing
+    anchors: 28 for FS83, 122 for FS81 and Kharash–Peled, and 275 for FS82.
+
+status:
+  scope: >-
+    425 source-facing anchors. FS83: the Green function, the integrated density of
+    states, Theorems 1.2 and 1.1, almost-sure decay. Kharash–Peled: Theorems
+    1.1, 1.3, 1.5, 1.6 on finite squares. FS81: Theorem C and the
+    Kosterlitz–Thouless transition of the plane rotator, Theorems A and B for
+    Coulomb gases, the clock phase diagram and Theorem 7.1, the disorder bounds
+    (7.5), Theorem D, Theorem 7.3 and roughening. FS82: the finite-volume dual
+    moment comparison (2.93) on log-thick boxes in dimension four, and (2.93)
+    for every limit state along centered cubes; the nonsummability of the
+    field-strength correlation in a translation-invariant limit state, for the
+    dual curvature and for the limit of the finite-volume field strengths
+    (2.89); the Wilson-loop perimeter law (large beta), area law (small beta)
+    and their statement on one family of cubes; the Z_N disorder perimeter law
+    (3.54) on centered cubes; long-range order (4.40) in the Villain XY model
+    on cubes for every D >= 3. Not formalized: the existence or uniqueness of thermodynamic
+    limits in FS82, Wilson's action in FS82 §2 and §4, and results the papers
+    only cite. This metadata describes the development; it does not claim that
+    the full papers are formalized.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+  main_results:
+    - declaration: "FroehlichSpencer.existsUnique_squareSummable_greenSolution"
+      file: "FroehlichSpencer/Surface/InfiniteGreenWellDefined.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS83/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS83 (1.4): unique square-summable solution of the lattice Green equation for every real potential and every non-real spectral parameter, in every dimension."
+    - declaration: "FroehlichSpencer.existsUnique_integratedDensityOfStates"
+      file: "FroehlichSpencer/Surface/IDSWellDefined.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS83/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS83 (1.10): for a single-site law with bounded density, a unique integrated density of states, the almost-sure limit along centered cubes for all energies at once."
+    - declaration: "FroehlichSpencer.finiteVolumeGreen_probability_bound"
+      file: "FroehlichSpencer/Surface/T12Lambda.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS83/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS83 Theorem 1.2 in a finite box with Dirichlet boundary conditions: with probability at least 1 - K/N^p, |G(E+i eps;0,x)| <= exp(m(N-|x|)) for all real eps != 0, uniformly in the box, at large disorder or at high energy for Gaussian disorder."
+    - declaration: "FroehlichSpencer.green_probability_bound"
+      file: "FroehlichSpencer/Surface/T12.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS83/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS83 Theorem 1.2 in infinite volume, in the same two regimes; constants depend on the dimension, m and p (and the variance in the Gaussian regime)."
+    - declaration: "FroehlichSpencer.theorem_1_1"
+      file: "FroehlichSpencer/Surface/Theorem11.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS83/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS83 Theorem 1.1: the Kubo diffusion coefficient vanishes at every energy where the integrated density of states has a positive derivative, in the two regimes."
+    - declaration: "FroehlichSpencer.green_almostSure_decay"
+      file: "FroehlichSpencer/Surface/GreenAlmostSure.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS83/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "For every m > 0, almost surely |G(E+i eps;0,x)| <= exp(-m|x|/2) for all |x| beyond a random radius and all eps != 0, in the two regimes."
+    - declaration: "FroehlichSpencer.BKT.integerGFF_delocalization"
+      file: "FroehlichSpencer/BKT/Surface/IntegerGFFDelocalization.lean"
+      sorry_count: 0
+      comparator_config: "comparators/KharashPeled/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "KP Theorem 1.1: exponential-moment and second-moment lower bounds and logarithmic variance growth for the integer-valued GFF at small beta, on free squares and even periodic squares, uniformly in the side."
+    - declaration: "FroehlichSpencer.BKT.villain_powerLaw_lower_bound"
+      file: "FroehlichSpencer/BKT/Surface/VillainPowerLaw.lean"
+      sorry_count: 0
+      comparator_config: "comparators/KharashPeled/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "KP Theorem 1.3: E cos(theta_j) >= (1 + dist(j, boundary))^(-C/beta) in the wired Villain model on finite squares, for large beta."
+    - declaration: "FroehlichSpencer.BKT.weightedGFF_expMoment_lower_bound"
+      file: "FroehlichSpencer/BKT/Surface/WeightedGFFExpMoment.lean"
+      sorry_count: 0
+      comparator_config: "comparators/KharashPeled/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "KP Theorem 1.5: exponential-moment lower bound for Gaussian free fields with sub-Gaussian trigonometric site weights at small beta, on free and even periodic squares."
+    - declaration: "FroehlichSpencer.BKT.weightedGFF_renormalization"
+      file: "FroehlichSpencer/BKT/Surface/WeightedGFFRenormalization.lean"
+      sorry_count: 0
+      comparator_config: "comparators/KharashPeled/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "KP Theorem 1.6: exact finite convex decomposition into neutral charge ensembles with activity and separation bounds."
+    - declaration: "FroehlichSpencer.BKT.planeRotator_powerLaw_lower_bound"
+      file: "FroehlichSpencer/BKT/Surface/PlaneRotatorPowerLaw.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS81 Theorem C: for large beta the infinite-volume two-point function of the plane rotator is at least A(1+|j-l|)^(-1/(2 pi beta')), with beta'(beta) > 1/(4 pi) and beta' -> infinity."
+    - declaration: "FroehlichSpencer.BKT.planeRotator_kosterlitzThouless_transition"
+      file: "FroehlichSpencer/BKT/Surface/PlaneRotatorTransition.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "Existence of beta_c > 0: exponential decay of the two-point function below it; above it no exponential bound and uniform decay to zero (no long-range order). The value of beta_c is not determined."
+    - declaration: "FroehlichSpencer.BKT.conditionLambdaGas_secondMomentLimit_lower_bound"
+      file: "FroehlichSpencer/BKT/Surface/ConditionLambdaGasTheoremA.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS81 Theorem A: for Condition-lambda activities with vacancy lambda(0) >= nu > 0 and large beta, the gas is summable, a free-boundary limit exists, and every limit of the potential second moments is at least (1-delta) beta (g, -Laplacian^{-1} g)."
+    - declaration: "FroehlichSpencer.BKT.conditionLambdaGas_fracCorrelationLimit_upper_bound"
+      file: "FroehlichSpencer/BKT/Surface/ConditionLambdaGasTheoremB.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS81 Theorem B: under the same hypotheses every limit of the fractional-charge correlation is between 0 and const |x|^(-beta'), with beta' -> infinity as beta -> infinity."
+    - declaration: "FroehlichSpencer.BKT.clock_phase_diagram"
+      file: "FroehlichSpencer/BKT/Surface/ClockPhaseDiagram.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "Z_n clock models: exponential decay of the fundamental harmonic for beta < beta_h (n >= 2); long-range order of every harmonic for beta > betabar(n) (n >= 2); and, for every margin q and all sufficiently large n, a massless phase on [beta_0, beta_1(n)] with beta_1(n) -> infinity."
+    - declaration: "FroehlichSpencer.BKT.clock_disorder_lowerBound"
+      file: "FroehlichSpencer/BKT/Surface/ClockDisorderLowerBound.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS81 (7.5) for the Z_n twists xi = k/n, n >= n_1(beta): every limit of the disorder expectation at (r,0) is at least C(1+r)^(-xi^2 beta'''/(2 pi)). A proved negative theorem covers real xi off the grid."
+    - declaration: "FroehlichSpencer.BKT.freeVillain_disorderLimit_upper_bound"
+      file: "FroehlichSpencer/BKT/Surface/FreeVillainTheoremD.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS81 Theorem D: for xi in (0,1) and large beta, a limit of the Villain disorder expectation along boxes exists and every such limit is at most const (1+n)^(-xi^2 beta'') at x = (n,0)."
+    - declaration: "FroehlichSpencer.BKT.sos_theorem73_dirichlet"
+      file: "FroehlichSpencer/BKT/Surface/SOSTheorem73Dirichlet.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS81 Theorem 7.3 in Dirichlet boxes at small beta: exponential-moment and variance lower bounds of order (1/beta') log(1+r) for height differences."
+    - declaration: "FroehlichSpencer.BKT.sos_roughening_transition"
+      file: "FroehlichSpencer/BKT/Surface/SOSRoughening.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "Roughening of the solid-on-solid model in Dirichlet boxes: height fluctuations unbounded for beta <= beta_0 and uniformly bounded for beta >= beta_1."
+    - declaration: "FroehlichSpencer.BKT.Surface.VillainClock.villain_clock_theorem71_1"
+      file: "FroehlichSpencer/BKT/Surface/VillainClock/VillainClockTheorem71One.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "Villain-clock Theorem 7.1(1): the Villain correlation is at most the Villain-clock correlation, on finite domains and for the upper limit along free boxes."
+    - declaration: "FroehlichSpencer.BKT.Surface.VillainClock.villain_clock_theorem71_2"
+      file: "FroehlichSpencer/BKT/Surface/VillainClock/VillainClockTheorem71Two.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "Villain-clock Theorem 7.1(2): power-law upper bound for high harmonics on boxes and for the upper limit along free boxes."
+    - declaration: "FroehlichSpencer.BKT.villainClock_disorder_lowerBound_grid_exhausting"
+      file: "FroehlichSpencer/BKT/Surface/VillainClockDisorderLowerBound.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS81/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "Villain-clock disorder lower bound on the Z_N grid for every limit point of an exhaustion by boxes."
+    - declaration: "FroehlichSpencer.FS82.Surface.fs82FiniteVillainDualMomentComparisonLogThick"
+      file: "FroehlichSpencer/FS82/Surface/FiniteVillainDualMomentComparisonLogThick.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS82/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS82 (2.93) in finite volume, dimension four: for beta >= beta_0, every log-thick box, every interior-supported co-closed real 1-form mu and every real eps, exp(eps^2 beta'' Q(mu)/2) <= <exp(eps alpha(mu))> <= exp(eps^2 beta Q(mu)/2), with 0 < beta'' < beta, beta''/beta -> 1."
+    - declaration: "FroehlichSpencer.FS82.SurfaceInfinite.source_infiniteVolume_momentComparison"
+      file: "FroehlichSpencer/FS82/SurfaceInfinite/SourceInfiniteVolumeMomentComparison.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS82/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS82 (2.90)–(2.93) for every limit state of the dual curvature along centered cubes, with the Fourier Green quadratic; no uniqueness or existence of the limit."
+    - declaration: "FroehlichSpencer.FS82.SurfaceInfinite.source_curvatureCorrelation_nonsummable"
+      file: "FroehlichSpencer/FS82/SurfaceInfinite/SourceCurvatureCorrelationNonsummable.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS82/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS82 §2.11 (display after (2.91)): for large beta, a translation-invariant limit state whose dual curvature two-point function in one lattice plane is not absolutely summable."
+    - declaration: "FroehlichSpencer.FS82.SurfaceInfinite.source_primalFieldStrength_nonsummable"
+      file: "FroehlichSpencer/FS82/SurfacePrimal/SourcePrimalFieldStrengthNonsummable.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS82/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS82 (2.89) and §2.11: in the same selected state, for every nonzero displacement, the box-averaged finite-volume correlations of the Villain field strength converge along one subsequence of cubes to the dual curvature correlation, which is not absolutely summable. Off the diagonal; no primal Gibbs state."
+    - declaration: "FroehlichSpencer.FS82.Surface.fs82WilsonLoopPerimeterLawCube"
+      file: "FroehlichSpencer/FS82/Surface/WilsonLoopPerimeterLawCube.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS82/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS82 (1.13), (2.8) in finite volume: for large beta the Villain Wilson loop expectation on centered cubes is real and at least exp(-d(beta)(L+T)), uniformly in the cube."
+    - declaration: "FroehlichSpencer.FS82.Surface.fs82WilsonLoopPerimeterLawCubeLimit"
+      file: "FroehlichSpencer/FS82/Surface/WilsonLoopPerimeterLawCubeLimit.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS82/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS82 (2.8) for limit points, the lower limit and any existing limit of the cube sequence; existence of the limit is not proved."
+    - declaration: "FroehlichSpencer.FS82.Surface.fs82WilsonLoopAreaLawCube"
+      file: "FroehlichSpencer/FS82/Surface/WilsonLoopAreaLawCube.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS82/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS82 (2.7) in finite volume: for small beta, 0 <= <W> <= exp(-c L T) on the same cubes, with a fixed rate c."
+    - declaration: "FroehlichSpencer.FS82.Surface.fs82WilsonLoopAreaLawCubeLimit"
+      file: "FroehlichSpencer/FS82/Surface/WilsonLoopAreaLawCubeLimit.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS82/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS82 (2.7) for limit points, the upper limit and any existing limit of the cube sequence."
+    - declaration: "FroehlichSpencer.FS82.Surface.fs82WilsonLoopTransitionCube"
+      file: "FroehlichSpencer/FS82/Surface/WilsonLoopTransitionCube.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS82/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "Both Wilson-loop laws on one family of centered cubes, with 0 < beta_0 < beta_1; nothing is asserted between the thresholds."
+    - declaration: "FroehlichSpencer.FS82.SurfaceZN.fs82_zn_disorder_perimeter_root"
+      file: "FroehlichSpencer/FS82/SurfaceZN/fs82_zn_disorder_perimeter_root.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS82/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS82 (3.54) on centered cubes: for every beta > 0 and N >= N_0(beta), the disorder expectation of the interpolating laws (every finite h) and of the Z_N theory is at least exp(-C beta (xi/N)^2 (L+T)), for integers 1 <= xi < N."
+    - declaration: "FroehlichSpencer.FS82.SurfaceXY.fs82_xy_spinCorrelation_root"
+      file: "FroehlichSpencer/FS82/SurfaceXY/fs82_xy_spinCorrelation_root.lean"
+      sorry_count: 0
+      comparator_config: "comparators/FS82/comparator.json"
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "proved"
+      scope: "FS82 (4.40) in finite volume: for every D >= 3 and beta >= beta_0(D), <cos(theta_x - theta_y)> >= exp(-C(D)/beta) in the Villain XY model on every cube, uniformly in the sites and the side."
+    - declaration: "FroehlichSpencer.FS82.XY.xy3_spinCorrelation_lower"
+      file: "FroehlichSpencer/FS82/XY/SpinRoot3.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      surface_status: "library"
+      scope: "The case D = 3 by a separate proof, with the explicit threshold beta_0 = 144. Not an anchor."
+
+review:
+  status: "author-verified"
+  reviewers:
+    - "Scott Armstrong"
+    - "Amélie Loher"
+  notes: >-
+    Lean checks each proof against its formal statement. The authors reviewed
+    that the statements are the intended theorems. Each source-facing
+    statement was compared with the sources by independent model reviews
+    before it was fixed, and the comparator declarations are checked
+    mechanically. This is not external peer review.
+
+fidelity:
+  divergences: >-
+    All errata and deviations are listed in docs/ERRATA-AND-DEVIATIONS.md.
+    FS81: 18 errata and 18 deviations. Kharash-Peled: 48 errata and 10
+    deviations. FS82: 21 errata and 13 deviations. FS83: 22 errata and 11
+    deviations. Counts refer to entries, including editorial misprints;
+    repeated occurrences may be grouped. The list separates printed errors
+    from scope restrictions, additional hypotheses, normalization and
+    orientation conventions, limit-point readings and proof supplements.
+
+alignment:
+  - source: "Fröhlich–Spencer (1983)"
+    lean: "FroehlichSpencer.existsUnique_squareSummable_greenSolution"
+    note: "FS83 (1.4): unique square-summable solution of the lattice Green equation for every real potential and every non-real spectral parameter, in every dimension."
+  - source: "Fröhlich–Spencer (1983)"
+    lean: "FroehlichSpencer.existsUnique_integratedDensityOfStates"
+    note: "FS83 (1.10): for a single-site law with bounded density, a unique integrated density of states, the almost-sure limit along centered cubes for all energies at once."
+  - source: "Fröhlich–Spencer (1983)"
+    lean: "FroehlichSpencer.finiteVolumeGreen_probability_bound"
+    note: "FS83 Theorem 1.2 in a finite box with Dirichlet boundary conditions: with probability at least 1 - K/N^p, |G(E+i eps;0,x)| <= exp(m(N-|x|)) for all real eps != 0, uniformly in the box, at large disorder or at high energy for Gaussian disorder."
+  - source: "Fröhlich–Spencer (1983)"
+    lean: "FroehlichSpencer.green_probability_bound"
+    note: "FS83 Theorem 1.2 in infinite volume, in the same two regimes; constants depend on the dimension, m and p (and the variance in the Gaussian regime)."
+  - source: "Fröhlich–Spencer (1983)"
+    lean: "FroehlichSpencer.theorem_1_1"
+    note: "FS83 Theorem 1.1: the Kubo diffusion coefficient vanishes at every energy where the integrated density of states has a positive derivative, in the two regimes."
+  - source: "Fröhlich–Spencer (1983)"
+    lean: "FroehlichSpencer.green_almostSure_decay"
+    note: "For every m > 0, almost surely |G(E+i eps;0,x)| <= exp(-m|x|/2) for all |x| beyond a random radius and all eps != 0, in the two regimes."
+  - source: "Kharash–Peled (2017)"
+    lean: "FroehlichSpencer.BKT.integerGFF_delocalization"
+    note: "KP Theorem 1.1: exponential-moment and second-moment lower bounds and logarithmic variance growth for the integer-valued GFF at small beta, on free squares and even periodic squares, uniformly in the side."
+  - source: "Kharash–Peled (2017)"
+    lean: "FroehlichSpencer.BKT.villain_powerLaw_lower_bound"
+    note: "KP Theorem 1.3: E cos(theta_j) >= (1 + dist(j, boundary))^(-C/beta) in the wired Villain model on finite squares, for large beta."
+  - source: "Kharash–Peled (2017)"
+    lean: "FroehlichSpencer.BKT.weightedGFF_expMoment_lower_bound"
+    note: "KP Theorem 1.5: exponential-moment lower bound for Gaussian free fields with sub-Gaussian trigonometric site weights at small beta, on free and even periodic squares."
+  - source: "Kharash–Peled (2017)"
+    lean: "FroehlichSpencer.BKT.weightedGFF_renormalization"
+    note: "KP Theorem 1.6: exact finite convex decomposition into neutral charge ensembles with activity and separation bounds."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.planeRotator_powerLaw_lower_bound"
+    note: "FS81 Theorem C: for large beta the infinite-volume two-point function of the plane rotator is at least A(1+|j-l|)^(-1/(2 pi beta')), with beta'(beta) > 1/(4 pi) and beta' -> infinity."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.planeRotator_kosterlitzThouless_transition"
+    note: "Existence of beta_c > 0: exponential decay of the two-point function below it; above it no exponential bound and uniform decay to zero (no long-range order). The value of beta_c is not determined."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.conditionLambdaGas_secondMomentLimit_lower_bound"
+    note: "FS81 Theorem A: for Condition-lambda activities with vacancy lambda(0) >= nu > 0 and large beta, the gas is summable, a free-boundary limit exists, and every limit of the potential second moments is at least (1-delta) beta (g, -Laplacian^{-1} g)."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.conditionLambdaGas_fracCorrelationLimit_upper_bound"
+    note: "FS81 Theorem B: under the same hypotheses every limit of the fractional-charge correlation is between 0 and const |x|^(-beta'), with beta' -> infinity as beta -> infinity."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.clock_phase_diagram"
+    note: "Z_n clock models: exponential decay of the fundamental harmonic for beta < beta_h (n >= 2); long-range order of every harmonic for beta > betabar(n) (n >= 2); and, for every margin q and all sufficiently large n, a massless phase on [beta_0, beta_1(n)] with beta_1(n) -> infinity."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.clock_disorder_lowerBound"
+    note: "FS81 (7.5) for the Z_n twists xi = k/n, n >= n_1(beta): every limit of the disorder expectation at (r,0) is at least C(1+r)^(-xi^2 beta'''/(2 pi)). A proved negative theorem covers real xi off the grid."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.freeVillain_disorderLimit_upper_bound"
+    note: "FS81 Theorem D: for xi in (0,1) and large beta, a limit of the Villain disorder expectation along boxes exists and every such limit is at most const (1+n)^(-xi^2 beta'') at x = (n,0)."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.sos_theorem73_dirichlet"
+    note: "FS81 Theorem 7.3 in Dirichlet boxes at small beta: exponential-moment and variance lower bounds of order (1/beta') log(1+r) for height differences."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.sos_roughening_transition"
+    note: "Roughening of the solid-on-solid model in Dirichlet boxes: height fluctuations unbounded for beta <= beta_0 and uniformly bounded for beta >= beta_1."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.Surface.VillainClock.villain_clock_theorem71_1"
+    note: "Villain-clock Theorem 7.1(1): the Villain correlation is at most the Villain-clock correlation, on finite domains and for the upper limit along free boxes."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.Surface.VillainClock.villain_clock_theorem71_2"
+    note: "Villain-clock Theorem 7.1(2): power-law upper bound for high harmonics on boxes and for the upper limit along free boxes."
+  - source: "Fröhlich–Spencer (1981)"
+    lean: "FroehlichSpencer.BKT.villainClock_disorder_lowerBound_grid_exhausting"
+    note: "Villain-clock disorder lower bound on the Z_N grid for every limit point of an exhaustion by boxes."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.Surface.fs82FiniteVillainDualMomentComparisonLogThick"
+    note: "FS82 (2.93) in finite volume, dimension four: for beta >= beta_0, every log-thick box, every interior-supported co-closed real 1-form mu and every real eps, exp(eps^2 beta'' Q(mu)/2) <= <exp(eps alpha(mu))> <= exp(eps^2 beta Q(mu)/2), with 0 < beta'' < beta, beta''/beta -> 1."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.SurfaceInfinite.source_infiniteVolume_momentComparison"
+    note: "FS82 (2.90)–(2.93) for every limit state of the dual curvature along centered cubes, with the Fourier Green quadratic; no uniqueness or existence of the limit."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.SurfaceInfinite.source_curvatureCorrelation_nonsummable"
+    note: "FS82 §2.11 (display after (2.91)): for large beta, a translation-invariant limit state whose dual curvature two-point function in one lattice plane is not absolutely summable."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.SurfaceInfinite.source_primalFieldStrength_nonsummable"
+    note: "FS82 (2.89) and §2.11: in the same selected state, for every nonzero displacement, the box-averaged finite-volume correlations of the Villain field strength converge along one subsequence of cubes to the dual curvature correlation, which is not absolutely summable. Off the diagonal; no primal Gibbs state."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.Surface.fs82WilsonLoopPerimeterLawCube"
+    note: "FS82 (1.13), (2.8) in finite volume: for large beta the Villain Wilson loop expectation on centered cubes is real and at least exp(-d(beta)(L+T)), uniformly in the cube."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.Surface.fs82WilsonLoopPerimeterLawCubeLimit"
+    note: "FS82 (2.8) for limit points, the lower limit and any existing limit of the cube sequence; existence of the limit is not proved."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.Surface.fs82WilsonLoopAreaLawCube"
+    note: "FS82 (2.7) in finite volume: for small beta, 0 <= <W> <= exp(-c L T) on the same cubes, with a fixed rate c."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.Surface.fs82WilsonLoopAreaLawCubeLimit"
+    note: "FS82 (2.7) for limit points, the upper limit and any existing limit of the cube sequence."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.Surface.fs82WilsonLoopTransitionCube"
+    note: "Both Wilson-loop laws on one family of centered cubes, with 0 < beta_0 < beta_1; nothing is asserted between the thresholds."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.SurfaceZN.fs82_zn_disorder_perimeter_root"
+    note: "FS82 (3.54) on centered cubes: for every beta > 0 and N >= N_0(beta), the disorder expectation of the interpolating laws (every finite h) and of the Z_N theory is at least exp(-C beta (xi/N)^2 (L+T)), for integers 1 <= xi < N."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.SurfaceXY.fs82_xy_spinCorrelation_root"
+    note: "FS82 (4.40) in finite volume: for every D >= 3 and beta >= beta_0(D), <cos(theta_x - theta_y)> >= exp(-C(D)/beta) in the Villain XY model on every cube, uniformly in the sites and the side."
+  - source: "Fröhlich–Spencer (1982)"
+    lean: "FroehlichSpencer.FS82.XY.xy3_spinCorrelation_lower"
+    note: "The case D = 3 by a separate proof, with the explicit threshold beta_0 = 144. Not an anchor."
+
+acknowledgements: >-
+  Scott Armstrong was supported by the European Research Council (ERC) under
+  the European Union's Horizon Europe research and innovation programme
+  (grant agreement No. 101200828). Amélie Loher acknowledges support from the
+  Fondation Sciences Mathématiques de Paris. Built on Lean 4, Mathlib and
+  Lake, and checked with leanprover/comparator.

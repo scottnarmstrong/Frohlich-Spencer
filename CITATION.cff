@@ -1,0 +1,69 @@
+cff-version: 1.2.0
+message: If you use this formalization, please cite it as below.
+title: "Frohlich-Spencer: a Lean 4 formalization of classical theorems of Fröhlich and Spencer on the Kosterlitz–Thouless transition, massless phases of abelian gauge theories, and Anderson localization"
+type: software
+version: 1.0.0
+date-released: '2026-10-10'
+repository-code: https://github.com/scottnarmstrong/Frohlich-Spencer
+authors:
+- family-names: Armstrong
+  given-names: Scott
+  affiliation: CNRS and Laboratoire Jacques-Louis Lions, Sorbonne Université; Courant Institute School
+    of Mathematics, Computing, and Data Science, New York University
+- family-names: Loher
+  given-names: Amélie
+  affiliation: All Souls College, University of Oxford
+license: Apache-2.0
+references:
+- type: article
+  title: The Kosterlitz–Thouless transition in two-dimensional Abelian spin systems and the Coulomb gas
+  authors:
+  - family-names: Fröhlich
+    given-names: J.
+  - family-names: Spencer
+    given-names: T.
+  year: 1981
+  url: https://doi.org/10.1007/BF01208273
+  journal: Communications in Mathematical Physics
+  volume: 81
+  start: 527
+  end: 602
+  doi: 10.1007/BF01208273
+- type: article
+  title: Massless phases and symmetry restoration in Abelian gauge theories and spin systems
+  authors:
+  - family-names: Fröhlich
+    given-names: J.
+  - family-names: Spencer
+    given-names: T.
+  year: 1982
+  url: https://doi.org/10.1007/BF01213610
+  journal: Communications in Mathematical Physics
+  volume: 83
+  start: 411
+  end: 454
+  doi: 10.1007/BF01213610
+- type: article
+  title: Absence of diffusion in the Anderson tight binding model for large disorder or low energy
+  authors:
+  - family-names: Fröhlich
+    given-names: J.
+  - family-names: Spencer
+    given-names: T.
+  year: 1983
+  url: https://doi.org/10.1007/BF01209475
+  journal: Communications in Mathematical Physics
+  volume: 88
+  start: 151
+  end: 184
+  doi: 10.1007/BF01209475
+- type: article
+  title: The Fröhlich–Spencer Proof of the Berezinskii–Kosterlitz–Thouless Transition
+  authors:
+  - family-names: Kharash
+    given-names: Vital
+  - family-names: Peled
+    given-names: Ron
+  year: 2017
+  url: https://arxiv.org/abs/1711.04720v1
+  notes: arXiv:1711.04720v1, pinned version 1.

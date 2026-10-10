@@ -1,0 +1,43 @@
+/-
+Copyright (c) 2026 Scott Armstrong, Amélie Loher. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Scott Armstrong, Amélie Loher
+-/
+module
+
+public import Mathlib.Analysis.SpecialFunctions.Pow.Real
+public import FroehlichSpencer.BKT.Surface.FreeVillainDisorderLimit
+import FroehlichSpencer.BKT.Provider.FreeVillainTheoremD
+
+/-! # FS81 Theorem D for the Villain model -/
+
+-- FROZEN_ANCHOR_PREFIX_BEGIN
+public section
+
+namespace FroehlichSpencer.BKT
+
+/--
+FS81 Theorem D (J p. 534) for the Villain model, with FS81's free-boundary states
+(1.26) (dual: the zero-exterior integer field of (1.35)).
+
+For each `ξ ∈ (0, 1)` there exists some
+finite `β₀(ξ)` such that for `β > β₀(ξ)` a thermodynamic limit of the disorder expectations along
+the boxes `[-R, R + 1]²` exists, and every such limit satisfies
+`⟨D^ξ_{0x}⟩(β) ≤ const (1 + |x|)^{-ξ²β''}` for some positive `β'' = β''(ξ, β)`, where `x = (n, 0)`
+and `|x| = n`.
+-/
+theorem freeVillain_disorderLimit_upper_bound :
+    ∀ ξ : ℝ, 0 < ξ → ξ < 1 → ∃ β₀ : ℝ, ∀ (β : ℝ) (hβ : 0 < β), β₀ < β →
+      (∃ D : ℕ → ℝ, IsFreeVillainDisorderLimit β hβ ξ D) ∧
+      ∃ β'' : ℝ, 0 < β'' ∧ ∃ A : ℝ, ∀ D : ℕ → ℝ, IsFreeVillainDisorderLimit β hβ ξ D →
+        ∀ n : ℕ, D n ≤ A * (1 + (n : ℝ)) ^ (-(ξ ^ 2 * β'')) :=
+  -- FROZEN_ANCHOR_PROOF_BEGIN
+  by exact FroehlichSpencer.BKT.Provider.freeVillain_disorderLimit_upper_bound
+  -- FROZEN_ANCHOR_PROOF_END
+
+
+-- FROZEN_ANCHOR_SUFFIX_BEGIN
+end FroehlichSpencer.BKT
+
+end
+-- FROZEN_ANCHOR_SUFFIX_END

@@ -1,0 +1,25 @@
+{
+  "challenge_module": "comparators.FS83.Challenge",
+  "solution_module": "comparators.FS83.Solution",
+  "theorem_names": [
+    "FSComparator.FS83.existsUnique_squareSummable_greenSolution",
+    "FSComparator.FS83.existsUnique_integratedDensityOfStates",
+    "FSComparator.FS83.finiteVolumeGreen_probability_bound",
+    "FSComparator.FS83.green_probability_bound",
+    "FSComparator.FS83.theorem_1_1",
+    "FSComparator.FS83.green_almostSure_decay",
+    "FroehlichSpencer.existsUnique_squareSummable_greenSolution",
+    "FroehlichSpencer.hamiltonian_isHermitian",
+    "FroehlichSpencer.existsUnique_integratedDensityOfStates",
+    "FroehlichSpencer.greenFunction_spec",
+    "FroehlichSpencer.has_bounded_density_gaussian_law",
+    "FroehlichSpencer.integratedDensityOfStates_spec"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "enable_nanoda": true
+}

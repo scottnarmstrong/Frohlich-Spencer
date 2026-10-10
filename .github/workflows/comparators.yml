@@ -1,0 +1,102 @@
+name: Comparators
+
+"on":
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: comparators-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  comparators:
+    name: Comparators
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - name: Free runner disk space
+        run: |
+          set -Eeuo pipefail
+          # Only remove preinstalled, unused SDKs on disposable hosted runners.
+          if [[ "${RUNNER_ENVIRONMENT:-}" == github-hosted ]]; then
+            sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+            sudo docker image prune --all --force > /dev/null || true
+          fi
+          df -h .
+          available_kib="$(df -Pk . | awk 'NR==2 {print $4}')"
+          test "$available_kib" -ge 20971520
+
+      - name: Set up Lean
+        uses: leanprover/lean-action@v1
+        with:
+          build: false
+          use-mathlib-cache: false
+
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+
+      - name: Restore project artifacts
+        id: project-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .lake/build
+          key: frohlich-spencer-comparators-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            frohlich-spencer-comparators-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+            frohlich-spencer-build-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-
+
+      - name: Reject proof escapes
+        run: python3 -I scripts/check_proofs.py
+
+      - name: Build
+        run: |
+          set -o pipefail
+          lake build 2>&1 | tee library-build.log
+          if grep -E "declaration uses .*sorry" library-build.log; then
+            echo "The library build reported a sorry."
+            exit 1
+          fi
+
+      - name: Install bubblewrap for lake comparator's sandbox
+        # Ubuntu 24.04 restricts unprivileged user namespaces through AppArmor,
+        # which bwrap needs; the runner is disposable.
+        run: |
+          sudo apt-get update -qq >/dev/null
+          sudo apt-get install -y -qq bubblewrap >/dev/null
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+
+      - name: Comparator and independent kernels
+        env:
+          SKIP_CACHE_GET: "1"
+        run: |
+          set -o pipefail
+          scripts/verify_comparator.sh 2>&1 | tee comparator.log
+
+      - name: Save project artifacts
+        if: always() && steps.project-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: .lake/build
+          key: frohlich-spencer-comparators-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}-${{ github.sha }}
+
+      - name: Upload comparator log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: comparator-log
+          path: comparator.log
+          if-no-files-found: ignore

@@ -1,0 +1,19 @@
+{
+  "challenge_module": "comparators.KharashPeled.Challenge",
+  "solution_module": "comparators.KharashPeled.Solution",
+  "theorem_names": [
+    "FSComparator.KharashPeled.integerGFF_delocalization",
+    "FSComparator.KharashPeled.villain_powerLaw_lower_bound",
+    "FSComparator.KharashPeled.weightedGFF_expMoment_lower_bound",
+    "FSComparator.KharashPeled.weightedGFF_renormalization",
+    "FroehlichSpencer.BKT.squareFree_connected",
+    "FroehlichSpencer.BKT.squarePeriodic_connected"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "enable_nanoda": true
+}
