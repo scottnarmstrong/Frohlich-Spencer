@@ -28,8 +28,12 @@ def centeredRectangularTwistPlaquette {L T M : ℕ}
     (hL : L ≤ M) (hT : T ≤ M) (hM : 0 < M)
     (i : Fin L) (j : Fin T) : Cell4 (centeredCubeSide M) :=
   rectangularTwistPlaquetteAt (M + 1) (M + 1) M M
-    (by simp [centeredCubeSide]; omega) (by simp [centeredCubeSide]; omega)
-    (by simp [centeredCubeSide]; omega) (by simp [centeredCubeSide]; omega) i j
+    (Nat.le_trans (Nat.add_le_add_left hL (M + 1))
+      (Nat.le_of_eq ((Nat.add_right_comm M 1 M).trans (congrArg (· + 1) (Nat.two_mul M).symm))))
+    (Nat.le_trans (Nat.add_le_add_left hT (M + 1))
+      (Nat.le_of_eq ((Nat.add_right_comm M 1 M).trans (congrArg (· + 1) (Nat.two_mul M).symm))))
+    (Nat.lt_of_lt_of_le (Nat.lt_add_of_pos_right hM) (Nat.le_of_eq (Nat.two_mul M).symm))
+    (Nat.lt_of_lt_of_le (Nat.lt_add_of_pos_right hM) (Nat.le_of_eq (Nat.two_mul M).symm)) i j
 
 end
 end FroehlichSpencer.FS82.SurfaceZN

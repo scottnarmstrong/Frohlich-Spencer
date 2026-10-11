@@ -30,17 +30,14 @@ noncomputable def dualEmbedCoordC1 (R : RectBox4) (i : Fin 4) :
     | inl x =>
       cases y with
       | inl y =>
-        simp only [Sum.inl.injEq] at h
-        have hv : (x.val : ℤ) = y.val := by omega
-        exact congrArg Sum.inl (Fin.ext (by exact_mod_cast hv))
+        exact congrArg Sum.inl
+          (Fin.ext (Int.ofNat_inj.1 (Int.add_left_cancel ((Int.add_left_inj 1).1 (Sum.inl.inj h)))))
       | inr y => cases h
     | inr x =>
       cases y with
       | inl y => cases h
       | inr y =>
-        simp only [Sum.inr.injEq] at h
-        have hv : (x.val : ℤ) = y.val := Int.add_left_cancel h
-        exact congrArg Sum.inr (Fin.ext (by exact_mod_cast hv))
+        exact congrArg Sum.inr (Fin.ext (Int.ofNat_inj.1 (Int.add_left_cancel (Sum.inr.inj h))))
 
 end FroehlichSpencer.FS82.Surface
 

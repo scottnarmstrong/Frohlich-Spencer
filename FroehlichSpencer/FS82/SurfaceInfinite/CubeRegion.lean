@@ -25,7 +25,7 @@ noncomputable section
 noncomputable def cubeRegion (N : ℕ) (hN : 0 < N) : RectBox4 where
   origin := fun _ => -(N : ℤ)
   side := fun _ => 2 * N
-  side_pos := fun _ => by omega
+  side_pos := fun _ => Nat.mul_pos Nat.zero_lt_two hN
 
 end
 end FroehlichSpencer.FS82.SurfaceInfinite

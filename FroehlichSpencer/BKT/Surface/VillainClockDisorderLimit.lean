@@ -14,7 +14,7 @@ def IsVillainClockDisorderExhaustingLimitPoint (N r : ℕ) (β ξ c : ℝ)
     (hβ : 0 < β) (hN : 0 < N) (hr : 0 < r) : Prop :=
   ∃ s : ℕ → ℕ, StrictMono s ∧ Tendsto s atTop atTop ∧
     Tendsto (fun t => villainClockDisorderExpectation N hN β hβ ξ (r + s t) r
-      (by omega) (by omega)) atTop (𝓝 c)
+      (Nat.lt_of_lt_of_le hr (Nat.le_add_right r (s t))) (Nat.le_add_right r (s t))) atTop (𝓝 c)
 
 end FroehlichSpencer.BKT
 

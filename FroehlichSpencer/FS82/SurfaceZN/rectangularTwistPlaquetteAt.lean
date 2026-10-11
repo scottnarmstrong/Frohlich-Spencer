@@ -28,8 +28,9 @@ def rectangularTwistPlaquetteAt {B : Box4} {L T : ℕ}
     (hx₂ : x₂ < B 2) (hx₃ : x₃ < B 3)
     (i : Fin L) (j : Fin T) : Cell4 B :=
   edgeCell (edgeCell
-    (vertexUpdate (vertexUpdate (rectangleBaseCell B) 0 ⟨x₀ + i.val, by omega⟩)
-      1 ⟨x₁ + j.val, by omega⟩)
+    (vertexUpdate (vertexUpdate (rectangleBaseCell B) 0
+        ⟨x₀ + i.val, Nat.lt_of_lt_of_le (Nat.add_lt_add_left i.isLt x₀) hx₀⟩)
+      1 ⟨x₁ + j.val, Nat.lt_of_lt_of_le (Nat.add_lt_add_left j.isLt x₁) hx₁⟩)
     2 ⟨x₂, hx₂⟩) 3 ⟨x₃, hx₃⟩
 
 end

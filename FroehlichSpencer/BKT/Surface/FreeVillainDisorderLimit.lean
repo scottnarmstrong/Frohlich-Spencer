@@ -29,9 +29,16 @@ def IsFreeVillainDisorderLimit (β : ℝ) (hβ : 0 < β) (ξ : ℝ) (D : ℕ →
     Tendsto (fun k : {k : ℕ // n ≤ Rs k} =>
       ∫ θ, freeVillainDisorder β hβ ξ
           (Finset.Icc (-(Rs k : ℤ)) (Rs k + 1) ×ˢ Finset.Icc (-(Rs k : ℤ)) (Rs k + 1)) n
-          (fun m => by
-            have := k.2; have := m.isLt
-            constructor <;> simp only [Finset.mem_product, Finset.mem_Icc] <;> omega) θ
+          (fun m =>
+            have hm : (m : ℕ) < Rs k := Nat.lt_of_lt_of_le m.isLt k.2
+            have h0 : (0 : ℤ) ≤ Rs k := Int.natCast_nonneg _
+            have hn : -(Rs k : ℤ) ≤ 0 := Int.neg_nonpos_of_nonneg h0
+            have hx : -(Rs k : ℤ) ≤ (m : ℕ) + 1 ∧ ((m : ℕ) : ℤ) + 1 ≤ Rs k + 1 :=
+              ⟨Int.le_trans hn (Int.le_add_one (Int.natCast_nonneg _)),
+                Int.add_le_add_right (Int.ofNat_le.2 (Nat.le_of_lt hm)) 1⟩
+            ⟨Finset.mem_product.2 ⟨Finset.mem_Icc.2 hx, Finset.mem_Icc.2 ⟨hn, Int.le_add_one h0⟩⟩,
+              Finset.mem_product.2 ⟨Finset.mem_Icc.2 hx, Finset.mem_Icc.2
+                ⟨Int.le_trans hn (Int.le_add_one (Int.le_refl 0)), Int.add_le_add_right h0 1⟩⟩⟩) θ
         ∂freeVillainLaw β hβ
           (Finset.Icc (-(Rs k : ℤ)) (Rs k + 1) ×ˢ Finset.Icc (-(Rs k : ℤ)) (Rs k + 1)))
       atTop (𝓝 (D n))

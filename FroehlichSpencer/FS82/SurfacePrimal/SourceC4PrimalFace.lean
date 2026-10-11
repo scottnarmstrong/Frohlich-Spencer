@@ -29,26 +29,13 @@ noncomputable def sourceC4PrimalFace (N : ℕ) (hN : 0 < N)
     | Sum.inl v => Sum.inr v
     | Sum.inr e => Sum.inl e
   refine ⟨c, ?_⟩
-  have haxes :
-      (Finset.univ.filter fun i : Fin 4 => (c i).isRight) =
-    (Finset.univ.filter fun i : Fin 4 => ¬ (d.1 i).isRight) := by
-    ext i
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
-    cases hi : d.1 i <;> simp [c, hi]
-  have hcomp :
-      (Finset.univ.filter fun i : Fin 4 => ¬ (d.1 i).isRight) =
-    (Finset.univ.filter fun i : Fin 4 => (d.1 i).isRight)ᶜ := by
-    ext i
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_compl]
-  have hcard :
-      (Finset.univ.filter fun i : Fin 4 => ¬ (d.1 i).isRight).card =
-        4 - Surface.dualCellDegree R d := by
-    rw [hcomp, Finset.card_compl]
-    change 4 - (Finset.univ.filter (fun i : Fin 4 => (d.1 i).isRight)).card =
-      4 - (Finset.univ.filter (fun i : Fin 4 => (d.1 i).isRight)).card
-    rfl
-  have hd : Surface.dualCellDegree R d = 2 := d.2
-  rw [Surface.primalCellDegree, haxes]
-  rw [hcard, hd]
+  have hc : ∀ i : Fin 4, (c i).isRight = true ↔ ¬ (d.1 i).isRight = true := by
+    intro i
+    dsimp only [c]
+    cases d.1 i with
+    | inl _ => exact iff_of_true rfl Bool.false_ne_true
+    | inr _ => exact iff_of_false Bool.false_ne_true (not_not_intro rfl)
+  exact (congrArg Finset.card ((Finset.filter_congr fun i _ => hc i).trans
+      (Finset.compl_filter _).symm)).trans ((Finset.card_compl _).trans (congrArg (4 - ·) d.2))
 end FroehlichSpencer.FS82.SurfaceInfinite
 end

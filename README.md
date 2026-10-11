@@ -386,7 +386,7 @@ python3 -I scripts/check_lean_modules.py --root .
 python3 -I .github/scripts/check_axioms.py
 ```
 
-The four [comparator packages](comparators/) check 33 source-facing root statements from FS81, Kharash–Peled, FS82 and FS83. Each Challenge imports only Mathlib and gives literal definitions and theorem statements, with intentional `sorry` obligations. Each Solution proves the selected statements using the library interfaces. Supporting existence, characterization and generated proof obligations are included where definitions require them. The separate explicit-constant three-dimensional XY estimate is covered by the axiom check; the FS82 comparator covers the all-dimensional root.
+The four [comparator packages](comparators/) check 33 source-facing root statements from FS81, Kharash–Peled, FS82 and FS83. Each Challenge imports only Mathlib and gives literal definitions and theorem statements, with intentional `sorry` obligations. Each Solution proves the selected statements using the library interfaces. Supporting existence and characterization theorems are included where definitions require them. The separate explicit-constant three-dimensional XY estimate is covered by the axiom check; the FS82 comparator covers the all-dimensional root.
 
 To compare all four Solutions with their Challenges and replay them through the bundled independent kernels, run:
 

@@ -239,9 +239,18 @@ def IsClockDisorderLimit (n : ℕ) (hn : 0 < n) (β ξ : ℝ) (D : ℕ → ℝ) 
     Tendsto (fun k : {k : ℕ // r ≤ Ls k} =>
       ∫ θ, clockDisorderOperator β ξ
           (Finset.Icc (-(Ls k : ℤ)) (Ls k) ×ˢ Finset.Icc (-(Ls k : ℤ)) (Ls k)) r
-          (fun m => by
-            have := k.2; have := m.isLt
-            constructor <;> simp only [Finset.mem_product, Finset.mem_Icc] <;> omega) θ
+          (fun m =>
+            have hm : (m : ℕ) < Ls k := Nat.lt_of_lt_of_le m.isLt k.2
+            have h0 : (0 : ℤ) ≤ Ls k := Int.natCast_nonneg _
+            have hn : -(Ls k : ℤ) ≤ 0 := Int.neg_nonpos_of_nonneg h0
+            have hx : -(Ls k : ℤ) ≤ (m : ℕ) + 1 ∧ ((m : ℕ) : ℤ) + 1 ≤ Ls k :=
+              ⟨Int.le_trans hn (Int.le_add_one (Int.natCast_nonneg _)),
+                Int.add_one_le_of_lt (Int.ofNat_lt.2 hm)⟩
+            ⟨Finset.mem_product.2 ⟨Finset.mem_Icc.2 hx, Finset.mem_Icc.2 ⟨hn, h0⟩⟩,
+              Finset.mem_product.2 ⟨Finset.mem_Icc.2 hx, Finset.mem_Icc.2
+                ⟨Int.le_trans hn (Int.le_add_one (Int.le_refl 0)),
+                  Int.add_one_le_of_lt
+                    (Int.ofNat_lt.2 (Nat.lt_of_le_of_lt (Nat.zero_le _) hm))⟩⟩⟩) θ
         ∂clockLaw n hn β (Finset.Icc (-(Ls k : ℤ)) (Ls k) ×ˢ Finset.Icc (-(Ls k : ℤ)) (Ls k)))
       atTop (𝓝 (D r))
 end FroehlichSpencer.BKT
@@ -284,9 +293,16 @@ def IsFreeVillainDisorderLimit (β : ℝ) (hβ : 0 < β) (ξ : ℝ) (D : ℕ →
     Tendsto (fun k : {k : ℕ // n ≤ Rs k} =>
       ∫ θ, freeVillainDisorder β hβ ξ
           (Finset.Icc (-(Rs k : ℤ)) (Rs k + 1) ×ˢ Finset.Icc (-(Rs k : ℤ)) (Rs k + 1)) n
-          (fun m => by
-            have := k.2; have := m.isLt
-            constructor <;> simp only [Finset.mem_product, Finset.mem_Icc] <;> omega) θ
+          (fun m =>
+            have hm : (m : ℕ) < Rs k := Nat.lt_of_lt_of_le m.isLt k.2
+            have h0 : (0 : ℤ) ≤ Rs k := Int.natCast_nonneg _
+            have hn : -(Rs k : ℤ) ≤ 0 := Int.neg_nonpos_of_nonneg h0
+            have hx : -(Rs k : ℤ) ≤ (m : ℕ) + 1 ∧ ((m : ℕ) : ℤ) + 1 ≤ Rs k + 1 :=
+              ⟨Int.le_trans hn (Int.le_add_one (Int.natCast_nonneg _)),
+                Int.add_le_add_right (Int.ofNat_le.2 (Nat.le_of_lt hm)) 1⟩
+            ⟨Finset.mem_product.2 ⟨Finset.mem_Icc.2 hx, Finset.mem_Icc.2 ⟨hn, Int.le_add_one h0⟩⟩,
+              Finset.mem_product.2 ⟨Finset.mem_Icc.2 hx, Finset.mem_Icc.2
+                ⟨Int.le_trans hn (Int.le_add_one (Int.le_refl 0)), Int.add_le_add_right h0 1⟩⟩⟩) θ
         ∂freeVillainLaw β hβ
           (Finset.Icc (-(Rs k : ℤ)) (Rs k + 1) ×ˢ Finset.Icc (-(Rs k : ℤ)) (Rs k + 1)))
       atTop (𝓝 (D n))
@@ -485,11 +501,17 @@ noncomputable def villainClockDisorderExpectation (N : ℕ) (hN : 0 < N) (β : �
     (hβ : 0 < β) (ξ : ℝ) (L r : ℕ) (hL : 0 < L) (hr : r ≤ L) : ℝ :=
   let Λ := Finset.Icc (0 : ℤ) ((2 * L : ℕ) : ℤ) ×ˢ Finset.Icc (0 : ℤ) ((2 * L : ℕ) : ℤ)
   ∫ θ, villainClockDisorderObservable β hβ ξ L r Λ
-    (fun m => by
-      have hm := m.isLt
-      dsimp [Λ]
-      simp only [Finset.mem_product, Finset.mem_Icc]
-      constructor <;> omega) θ
+    (fun m =>
+      have h2 : L + L ≤ 2 * L := Nat.le_of_eq (Nat.two_mul L).symm
+      have hx : (0 : ℤ) ≤ ((L + m.val + 1 : ℕ) : ℤ) ∧
+          ((L + m.val + 1 : ℕ) : ℤ) ≤ ((2 * L : ℕ) : ℤ) :=
+        ⟨Int.natCast_nonneg _,
+          Int.ofNat_le.2 (Nat.le_trans (Nat.add_le_add_left (Nat.lt_of_lt_of_le m.isLt hr) L) h2)⟩
+      ⟨Finset.mem_product.2 ⟨Finset.mem_Icc.2 hx, Finset.mem_Icc.2
+          ⟨Int.natCast_nonneg L, Int.ofNat_le.2 (Nat.le_trans (Nat.le_add_right L L) h2)⟩⟩,
+        Finset.mem_product.2 ⟨Finset.mem_Icc.2 hx, Finset.mem_Icc.2
+          ⟨Int.le_add_one (Int.natCast_nonneg L),
+            Int.ofNat_le.2 (Nat.le_trans (Nat.add_le_add_left hL L) h2)⟩⟩⟩) θ
     ∂villainClockModel N hN β hβ Λ
 end FroehlichSpencer.BKT
 end
@@ -502,7 +524,7 @@ def IsVillainClockDisorderExhaustingLimitPoint (N r : ℕ) (β ξ c : ℝ)
     (hβ : 0 < β) (hN : 0 < N) (hr : 0 < r) : Prop :=
   ∃ s : ℕ → ℕ, StrictMono s ∧ Tendsto s atTop atTop ∧
     Tendsto (fun t => villainClockDisorderExpectation N hN β hβ ξ (r + s t) r
-      (by omega) (by omega)) atTop (𝓝 c)
+      (Nat.lt_of_lt_of_le hr (Nat.le_add_right r (s t))) (Nat.le_add_right r (s t))) atTop (𝓝 c)
 end FroehlichSpencer.BKT
 end
 

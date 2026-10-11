@@ -62,17 +62,14 @@ noncomputable def dualEmbedCoordC1 (R : RectBox4) (i : Fin 4) :
     | inl x =>
       cases y with
       | inl y =>
-        simp only [Sum.inl.injEq] at h
-        have hv : (x.val : ℤ) = y.val := by omega
-        exact congrArg Sum.inl (Fin.ext (by exact_mod_cast hv))
+        exact congrArg Sum.inl
+          (Fin.ext (Int.ofNat_inj.1 (Int.add_left_cancel ((Int.add_left_inj 1).1 (Sum.inl.inj h)))))
       | inr y => cases h
     | inr x =>
       cases y with
       | inl y => cases h
       | inr y =>
-        simp only [Sum.inr.injEq] at h
-        have hv : (x.val : ℤ) = y.val := Int.add_left_cancel h
-        exact congrArg Sum.inr (Fin.ext (by exact_mod_cast hv))
+        exact congrArg Sum.inr (Fin.ext (Int.ofNat_inj.1 (Int.add_left_cancel (Sum.inr.inj h))))
 run_elab Lean.modifyEnv fun env => Lean.Meta.auxLemmasExt.setState env {}
 noncomputable def dualCellEmbeddingC1 (R : RectBox4) : DualCell R ↪ LatticeCell where
   toFun c i := dualEmbedCoordC1 R i (c i)
@@ -263,7 +260,7 @@ namespace FroehlichSpencer.FS82.SurfaceInfinite
 noncomputable def cubeRegion (N : ℕ) (hN : 0 < N) : RectBox4 where
   origin := fun _ => -(N : ℤ)
   side := fun _ => 2 * N
-  side_pos := fun _ => by omega
+  side_pos := fun _ => Nat.mul_pos Nat.zero_lt_two hN
 run_elab Lean.modifyEnv fun env => Lean.Meta.auxLemmasExt.setState env {}
 open MeasureTheory
 open Filter Topology
@@ -569,27 +566,14 @@ noncomputable def sourceC4PrimalFace (N : ℕ) (hN : 0 < N)
     sourceC4PrimalFace.match_1 R i (fun _ => Surface.PrimalCoord R i) (d.1 i)
       (fun v => Sum.inr v) (fun e => Sum.inl e)
   refine ⟨c, ?_⟩
-  have haxes :
-      (Finset.univ.filter fun i : Fin 4 => (c i).isRight) =
-    (Finset.univ.filter fun i : Fin 4 => ¬ (d.1 i).isRight) := by
-    ext i
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and]
-    cases hi : d.1 i <;> simp [c, hi, sourceC4PrimalFace.match_1]
-  have hcomp :
-      (Finset.univ.filter fun i : Fin 4 => ¬ (d.1 i).isRight) =
-    (Finset.univ.filter fun i : Fin 4 => (d.1 i).isRight)ᶜ := by
-    ext i
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_compl]
-  have hcard :
-      (Finset.univ.filter fun i : Fin 4 => ¬ (d.1 i).isRight).card =
-        4 - Surface.dualCellDegree R d := by
-    rw [hcomp, Finset.card_compl]
-    change 4 - (Finset.univ.filter (fun i : Fin 4 => (d.1 i).isRight)).card =
-      4 - (Finset.univ.filter (fun i : Fin 4 => (d.1 i).isRight)).card
-    rfl
-  have hd : Surface.dualCellDegree R d = 2 := d.2
-  rw [Surface.primalCellDegree, haxes]
-  rw [hcard, hd]
+  have hc : ∀ i : Fin 4, (c i).isRight = true ↔ ¬ (d.1 i).isRight = true := by
+    intro i
+    dsimp only [c]
+    cases d.1 i with
+    | inl _ => exact iff_of_true rfl Bool.false_ne_true
+    | inr _ => exact iff_of_false Bool.false_ne_true (not_not_intro rfl)
+  exact (congrArg Finset.card ((Finset.filter_congr fun i _ => hc i).trans
+      (Finset.compl_filter _).symm)).trans ((Finset.card_compl _).trans (congrArg (4 - ·) d.2))
 run_elab Lean.modifyEnv fun env => Lean.Meta.auxLemmasExt.setState env {}
 open MeasureTheory
 open Filter Topology
@@ -702,9 +686,9 @@ def discreteZNPartitionFunction {B : Box4} (β : ℝ) (N : ℕ) : ℝ := ∑ a :
 run_elab Lean.modifyEnv fun env => Lean.Meta.auxLemmasExt.setState env {}
 def rectangleBaseCell (B : Box4) : Cell4 B := fun k => Sum.inl ⟨0, Nat.zero_lt_succ (B k)⟩
 run_elab Lean.modifyEnv fun env => Lean.Meta.auxLemmasExt.setState env {}
-def rectangularTwistPlaquetteAt {B : Box4} {L T : ℕ} (x₀ x₁ x₂ x₃ : ℕ) (hx₀ : x₀ + L ≤ B 0 + 1) (hx₁ : x₁ + T ≤ B 1 + 1) (hx₂ : x₂ < B 2) (hx₃ : x₃ < B 3) (i : Fin L) (j : Fin T) : Cell4 B := edgeCell (edgeCell (vertexUpdate (vertexUpdate (rectangleBaseCell B) 0 ⟨x₀ + i.val, by omega⟩) 1 ⟨x₁ + j.val, by omega⟩) 2 ⟨x₂, hx₂⟩) 3 ⟨x₃, hx₃⟩
+def rectangularTwistPlaquetteAt {B : Box4} {L T : ℕ} (x₀ x₁ x₂ x₃ : ℕ) (hx₀ : x₀ + L ≤ B 0 + 1) (hx₁ : x₁ + T ≤ B 1 + 1) (hx₂ : x₂ < B 2) (hx₃ : x₃ < B 3) (i : Fin L) (j : Fin T) : Cell4 B := edgeCell (edgeCell (vertexUpdate (vertexUpdate (rectangleBaseCell B) 0 ⟨x₀ + i.val, Nat.lt_of_lt_of_le (Nat.add_lt_add_left i.isLt x₀) hx₀⟩) 1 ⟨x₁ + j.val, Nat.lt_of_lt_of_le (Nat.add_lt_add_left j.isLt x₁) hx₁⟩) 2 ⟨x₂, hx₂⟩) 3 ⟨x₃, hx₃⟩
 run_elab Lean.modifyEnv fun env => Lean.Meta.auxLemmasExt.setState env {}
-def centeredRectangularTwistPlaquette {L T M : ℕ} (hL : L ≤ M) (hT : T ≤ M) (hM : 0 < M) (i : Fin L) (j : Fin T) : Cell4 (centeredCubeSide M) := rectangularTwistPlaquetteAt (M + 1) (M + 1) M M (by simp [centeredCubeSide]; omega) (by simp [centeredCubeSide]; omega) (by simp [centeredCubeSide]; omega) (by simp [centeredCubeSide]; omega) i j
+def centeredRectangularTwistPlaquette {L T M : ℕ} (hL : L ≤ M) (hT : T ≤ M) (hM : 0 < M) (i : Fin L) (j : Fin T) : Cell4 (centeredCubeSide M) := rectangularTwistPlaquetteAt (M + 1) (M + 1) M M (Nat.le_trans (Nat.add_le_add_left hL (M + 1)) (Nat.le_of_eq ((Nat.add_right_comm M 1 M).trans (congrArg (· + 1) (Nat.two_mul M).symm)))) (Nat.le_trans (Nat.add_le_add_left hT (M + 1)) (Nat.le_of_eq ((Nat.add_right_comm M 1 M).trans (congrArg (· + 1) (Nat.two_mul M).symm)))) (Nat.lt_of_lt_of_le (Nat.lt_add_of_pos_right hM) (Nat.le_of_eq (Nat.two_mul M).symm)) (Nat.lt_of_lt_of_le (Nat.lt_add_of_pos_right hM) (Nat.le_of_eq (Nat.two_mul M).symm)) i j
 run_elab Lean.modifyEnv fun env => Lean.Meta.auxLemmasExt.setState env {}
 def rectangularTwistSheetSupport {B : Box4} {L T : ℕ} (plaq : Fin L → Fin T → Cell4 B) (c : Cell4 B) : Prop := ∃ i j, plaq i j = c
 run_elab Lean.modifyEnv fun env => Lean.Meta.auxLemmasExt.setState env {}
